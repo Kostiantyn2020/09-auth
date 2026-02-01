@@ -6,6 +6,8 @@ import Footer from "@/components/Footer/Footer";
 
 import { Roboto } from "next/font/google";
 
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -36,26 +38,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-  modal: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body className={roboto.variable}>
+      <body>
         <TanStackProvider>
-          <Header />
-          <main>
+          <AuthProvider>
+            <Header />
             {children}
-            {modal}
-          </main>
-          <Footer />
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
-        <div id="modal-root" />
       </body>
     </html>
   );

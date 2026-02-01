@@ -29,3 +29,11 @@ export type NoteDraft = {
   content: string;
   tag: NoteTag;
 };
+
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+  username: string;
+  avatar: string;
+};
