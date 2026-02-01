@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import css from "./page.module.css";
+import css from "./EditProfilePage.module.css";
 import { getMe, updateMe } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import toast from "react-hot-toast";
@@ -16,7 +16,6 @@ export default function EditProfilePage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // Отримати дані користувача при завантаженні сторінки
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -40,7 +39,7 @@ export default function EditProfilePage() {
     setSaving(true);
     try {
       await updateMe({ username });
-      setUser({ ...user!, username }); // оновлюємо Zustand store
+      setUser({ ...user!, username });
       toast.success("Profile updated");
       router.push("/profile");
     } catch (err) {

@@ -1,5 +1,18 @@
 import { api } from "./api";
-import type { User, Note } from "@/types/note";
+import type { User, Note, NoteTag } from "@/types/note"; // Импортируем NoteTag для NewNote
+
+/* ===== Типы только для этого файла ===== */
+export interface NewNote {
+  title: string;
+  content: string;
+  tag: NoteTag;
+}
+
+/* ===== NOTES ===== */
+export const createNote = async (data: NewNote): Promise<Note> => {
+  const res = await api.post("/notes", data);
+  return res.data;
+};
 
 /* ========= GET ME ========= */
 export const getMe = async (): Promise<User> => {
@@ -34,7 +47,7 @@ export const fetchNoteById = async (id: Note["id"]): Promise<Note> => {
   return res.data;
 };
 
-// ⚠️ Добавляем deleteNote в clientApi.ts
+// ⚠️ deleteNote
 export const deleteNote = async (id: Note["id"]): Promise<void> => {
   await api.delete(`/notes/${id}`);
 };
