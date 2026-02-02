@@ -15,12 +15,10 @@ export function proxy(request: NextRequest) {
     pathname.startsWith(route),
   );
 
-  // ❌ неавторизован → лезет в приватную
   if (!token && isPrivateRoute) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // ✅ авторизован → лезет на логин или регистрацию
   if (token && isPublicRoute) {
     return NextResponse.redirect(new URL("/profile", request.url));
   }
