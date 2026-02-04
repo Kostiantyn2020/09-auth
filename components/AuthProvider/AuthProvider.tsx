@@ -19,7 +19,7 @@ export default function AuthProvider({
       try {
         const session = await checkSession();
 
-        if (!session.authenticated) {
+        if (session.authenticated) {
           const user = await getMe();
           setUser(user);
         } else {

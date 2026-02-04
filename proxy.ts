@@ -20,6 +20,8 @@ export async function proxy(request: NextRequest) {
 
   let isAuthenticated = false;
 
+  const response = NextResponse.next();
+
   if (accessToken) {
     isAuthenticated = true;
   }
@@ -28,6 +30,13 @@ export async function proxy(request: NextRequest) {
     try {
       const session = await checkSession();
       isAuthenticated = session.data.authenticated;
+      const setCookieHeader = session.headers["set-cookie"];
+
+      if (setCookieHeader) {
+        setCookieHeader.forEach((cookie: string) => {
+          response.headers.append("set-cookie", cookie);
+        });
+      }
     } catch {
       isAuthenticated = false;
     }
@@ -41,7 +50,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
